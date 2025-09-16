@@ -47,6 +47,21 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        medical: {
+          blue: "hsl(var(--medical-blue))",
+          "blue-light": "hsl(var(--medical-blue-light))",
+          green: "hsl(var(--medical-green))",
+          orange: "hsl(var(--medical-orange))",
+          red: "hsl(var(--medical-red))",
+          gray: "hsl(var(--medical-gray))",
+        },
+        status: {
+          waiting: "hsl(var(--status-waiting))",
+          inside: "hsl(var(--status-inside))",
+          completed: "hsl(var(--status-completed))",
+          skipped: "hsl(var(--status-skipped))",
+          scan: "hsl(var(--status-scan))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -62,6 +77,14 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        'gradient-medical': 'var(--gradient-medical)',
+        'gradient-hero': 'var(--gradient-hero)',
+      },
+      boxShadow: {
+        'medical': 'var(--shadow-medical)',
+        'card': 'var(--shadow-card)',
       },
       keyframes: {
         "accordion-down": {

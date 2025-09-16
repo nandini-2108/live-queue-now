@@ -1,14 +1,75 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react"
+import { Navbar } from "@/components/ui/navbar"
+import { HomePage } from "@/pages/HomePage"
+import { BookingPage } from "@/pages/BookingPage"
+import { QueuePage } from "@/pages/QueuePage"
+import { StaffPage } from "@/pages/StaffPage"
+import { useQueueSimulation } from "@/hooks/use-queue-simulation"
 
 const Index = () => {
+  const [currentPage, setCurrentPage] = useState("home")
+  const {
+    doctors,
+    patients,
+    userToken,
+    addPatient,
+    updatePatientStatus,
+    getQueueForDoctor,
+    getUserQueue
+  } = useQueueSimulation()
+
+  const handleBookingSuccess = (patientData: any) => {
+    addPatient(patientData)
+    setCurrentPage("queue")
+  }
+
+  const totalPatients = patients.length
+  const activePatients = patients.filter(p => p.status !== "completed").length
+  const userQueue = getUserQueue()
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case "booking":
+        return (
+          <BookingPage
+            onNavigate={setCurrentPage}
+            onBookingSuccess={handleBookingSuccess}
+          />
+        )
+      case "queue":
+        return (
+          <QueuePage
+            onNavigate={setCurrentPage}
+            userQueue={userQueue}
+          />
+        )
+      case "staff":
+        return (
+          <StaffPage
+            onNavigate={setCurrentPage}
+            doctors={doctors}
+            patients={patients}
+            updatePatientStatus={updatePatientStatus}
+            getQueueForDoctor={getQueueForDoctor}
+          />
+        )
+      default:
+        return (
+          <HomePage
+            onNavigate={setCurrentPage}
+            totalPatients={totalPatients}
+            activePatients={activePatients}
+          />
+        )
+    }
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      {renderPage()}
     </div>
-  );
+  )
 };
 
 export default Index;
