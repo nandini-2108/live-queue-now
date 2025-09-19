@@ -4,9 +4,11 @@ import { HomePage } from "@/pages/HomePage"
 import { BookingPage } from "@/pages/BookingPage"
 import { QueuePage } from "@/pages/QueuePage"
 import { StaffPage } from "@/pages/StaffPage"
+import { RoleSelectionPage } from "@/pages/RoleSelectionPage"
 import { useQueueSimulation } from "@/hooks/use-queue-simulation"
 
 const Index = () => {
+  const [userRole, setUserRole] = useState<'patient' | 'staff' | null>(null)
   const [currentPage, setCurrentPage] = useState("home")
   const {
     doctors,
@@ -27,7 +29,20 @@ const Index = () => {
   const activePatients = patients.filter(p => p.status !== "completed").length
   const userQueue = getUserQueue()
 
+  const handleRoleSelect = (role: 'patient' | 'staff') => {
+    setUserRole(role)
+    if (role === 'staff') {
+      setCurrentPage('staff')
+    } else {
+      setCurrentPage('home')
+    }
+  }
+
   const renderPage = () => {
+    if (!userRole) {
+      return <RoleSelectionPage onRoleSelect={handleRoleSelect} />
+    }
+
     switch (currentPage) {
       case "booking":
         return (
@@ -66,7 +81,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      {userRole && <Navbar />}
       {renderPage()}
     </div>
   )
